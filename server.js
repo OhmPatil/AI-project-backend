@@ -4,6 +4,7 @@ const Sentiment = require('sentiment');
 const sentiment = new Sentiment();
 const {getSentiment} = require('./sentiment')
 const spawn = require("child_process").spawn;
+const {fetchResults} = require("./main")
 
 // Initializing app
 const app = express();
@@ -20,9 +21,9 @@ let pythonResponse
 app.get("/predict/:subreddit", async (req, res) => {
     console.log("Subreddit", req.params.subreddit);
 
-    const pythonProcess = spawn('python',["test.py", `${req.params.subreddit}`]);
-    pythonProcess.stdout.on('data', async (data) => {
-        pythonResponse = await JSON.parse(data)
+    // const pythonProcess = spawn('python',["test.py", `${req.params.subreddit}`]);
+    // pythonProcess.stdout.on('data', async (data) => {
+        pythonResponse = await fetchResults(req.params.subreddit)
         console.log(await pythonResponse);
 
         let results = [];
@@ -34,7 +35,7 @@ app.get("/predict/:subreddit", async (req, res) => {
         });
               console.log(results);
         res.json({headlines: pythonResponse, results: results}).status(200)
-    })
+    // })
 
 })
 
