@@ -1,6 +1,5 @@
 const fetch = require("node-fetch");
 
-/////////////////////////////
 async function fetchResults(subreddit) {
   let results = await fetch(`https://www.reddit.com/r/${subreddit}/hot/.json`);
   let data = await results.json();
@@ -14,4 +13,4 @@ async function fetchResults(subreddit) {
   return headlines;
 }
 
-module.exports = {fetchResults}
+module.exports = { fetchResults };
